@@ -1,0 +1,10 @@
+/.idea/
+/Library/
+/Logs/
+/obj/
+/Temp/
+/UserSettings/
+
+*.blob
+*.DotSettings
+*.DotSettings.user
