@@ -1,4 +1,5 @@
 using System.Net.Sockets;
+using Entities;
 public class ClientInfo
 {
     public TcpClient Client { get; set; }

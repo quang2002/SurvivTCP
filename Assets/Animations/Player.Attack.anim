@@ -75,7 +75,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: Hands/L-Hand
+    path: Visual/Hands/L-Hand
   m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
@@ -179,7 +179,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: Hands/L-Hand
+    path: Visual/Hands/L-Hand
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -245,7 +245,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: Hands/L-Hand
+    path: Visual/Hands/L-Hand
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -311,7 +311,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: Hands/L-Hand
+    path: Visual/Hands/L-Hand
     classID: 4
     script: {fileID: 0}
     flags: 0

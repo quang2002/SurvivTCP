@@ -75,6 +75,39 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2733305691908475512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8686187372075880395}
+  m_Layer: 3
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8686187372075880395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2733305691908475512}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3048880605165170795}
+  - {fileID: 1679132840596055421}
+  m_Father: {fileID: 1898984920165390273}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3196167549562798015
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,14 +133,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3196167549562798015}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 858522387027574491}
   - {fileID: 2092380000326299815}
-  m_Father: {fileID: 1898984920165390273}
+  m_Father: {fileID: 8686187372075880395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &8813541492770179707
 BoxCollider2D:
@@ -186,8 +219,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3048880605165170795}
-  - {fileID: 1679132840596055421}
+  - {fileID: 8686187372075880395}
   - {fileID: 7039944659280042546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -211,6 +243,8 @@ MonoBehaviour:
   <MeleeAttackCollider2D>k__BackingField: {fileID: 8813541492770179707}
   <HealthSlider>k__BackingField: {fileID: 2893511555368466849}
   <NameTextMeshPro>k__BackingField: {fileID: 2276133832973355841}
+  <Visual>k__BackingField: {fileID: 8686187372075880395}
+  <LHand>k__BackingField: {fileID: 858522387027574491}
 --- !u!50 &277818209395932053
 Rigidbody2D:
   serializedVersion: 4
@@ -681,12 +715,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8324405302528808498}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1898984920165390273}
+  m_Father: {fileID: 8686187372075880395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8890932341347441795
 SpriteRenderer:
@@ -842,8 +876,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: I'm Yuyu
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 472b30e52664e62d88da51b1b4a64fb8, type: 2}
+  m_sharedMaterial: {fileID: -7767093619750093204, guid: 472b30e52664e62d88da51b1b4a64fb8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

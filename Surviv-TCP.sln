@@ -5,11 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTask.Linq", "UniTask.Lin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTask", "UniTask.csproj", "{28479fdf-a0e4-2b76-1d86-89b8e5215ea3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurvivTCP", "SurvivTCP.csproj", "{a2db701f-8349-7361-86f4-9b4032f7f41f}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTask.Addressables", "UniTask.Addressables.csproj", "{f581a3d2-e2fc-d6f3-55c0-12c127cd0288}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTask.TextMeshPro", "UniTask.TextMeshPro.csproj", "{2ffc6226-7930-bf3e-78c4-e2abf733a9ad}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurvivTCP", "SurvivTCP.csproj", "{a2db701f-8349-7361-86f4-9b4032f7f41f}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniTask.DOTween", "UniTask.DOTween.csproj", "{3495ca70-9f11-788d-f8ae-6939d911eb8c}"
 EndProject
@@ -28,12 +28,12 @@ Global
 		{f51c1bec-9f3a-dcd3-ed53-f133bff8c469}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28479fdf-a0e4-2b76-1d86-89b8e5215ea3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{28479fdf-a0e4-2b76-1d86-89b8e5215ea3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{a2db701f-8349-7361-86f4-9b4032f7f41f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{a2db701f-8349-7361-86f4-9b4032f7f41f}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{f581a3d2-e2fc-d6f3-55c0-12c127cd0288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{f581a3d2-e2fc-d6f3-55c0-12c127cd0288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2ffc6226-7930-bf3e-78c4-e2abf733a9ad}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2ffc6226-7930-bf3e-78c4-e2abf733a9ad}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{a2db701f-8349-7361-86f4-9b4032f7f41f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{a2db701f-8349-7361-86f4-9b4032f7f41f}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3495ca70-9f11-788d-f8ae-6939d911eb8c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3495ca70-9f11-788d-f8ae-6939d911eb8c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8c730df4-7bb3-9904-c976-3fc58b06567b}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

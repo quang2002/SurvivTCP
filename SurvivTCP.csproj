@@ -45,12 +45,31 @@
     <Analyzer Include="/home/yuyu/Unity/Hub/Editor/2022.3.9f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets/Scripts/Player.cs" />
-     <Compile Include="Assets/Scripts/GameManager.cs" />
-     <Compile Include="Assets/Scripts/Server.cs" />
+     <Compile Include="Assets/Scripts/Screen/BaseScreen.cs" />
+     <Compile Include="Assets/Scripts/Game/GameLobbyState.cs" />
+     <Compile Include="Assets/Scripts/Screen/GameScreen.cs" />
+     <Compile Include="Assets/Scripts/Entities/Weapon.cs" />
+     <Compile Include="Assets/Scripts/Game/GamePlayingState.cs" />
+     <Compile Include="Assets/Scripts/Screen/LobbyScreen.cs" />
+     <Compile Include="Assets/Scripts/Server/INonSchemaRequestHandler.cs" />
+     <Compile Include="Assets/Scripts/Game/GameEndState.cs" />
+     <Compile Include="Assets/Scripts/Game/GameManager.cs" />
+     <Compile Include="Assets/Scripts/Server/Handlers/InitialHandler.cs" />
+     <Compile Include="Assets/Scripts/Server/Handlers/AttackHandler.cs" />
+     <Compile Include="Assets/Scripts/Entities/CameraController.cs" />
+     <Compile Include="Assets/Scripts/Server/Handlers/MoveHandler.cs" />
+     <Compile Include="Assets/Scripts/Entities/Player.cs" />
+     <Compile Include="Assets/Scripts/Game/GameWaitingState.cs" />
+     <Compile Include="Assets/Scripts/Server/TcpServer.cs" />
      <Compile Include="Assets/Scripts/ClientInfo.cs" />
+     <Compile Include="Assets/Scripts/Game/IGameState.cs" />
      <Compile Include="Assets/Scripts/SharedProto.cs" />
+     <Folder Include="Assets/Scripts/Server/Handlers" />
+     <Folder Include="Assets/Scripts/Entities" />
+     <Folder Include="Assets/Scripts/Game" />
+     <Folder Include="Assets/Scripts/Server" />
      <Folder Include="Assets/Scripts" />
+     <Folder Include="Assets/Scripts/Screen" />
      <None Include="Assets/Scripts/SurvivTCP.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/home/yuyu/Unity/Hub/Editor/2022.3.9f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
