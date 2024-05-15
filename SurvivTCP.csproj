@@ -62,6 +62,7 @@
      <Compile Include="Assets/Scripts/Game/GameWaitingState.cs" />
      <Compile Include="Assets/Scripts/Server/TcpServer.cs" />
      <Compile Include="Assets/Scripts/ClientInfo.cs" />
+     <Compile Include="Assets/Scripts/Screen/GameScreenRankingRow.cs" />
      <Compile Include="Assets/Scripts/Game/IGameState.cs" />
      <Compile Include="Assets/Scripts/SharedProto.cs" />
      <Folder Include="Assets/Scripts/Server/Handlers" />

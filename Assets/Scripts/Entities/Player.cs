@@ -36,7 +36,9 @@ namespace Entities
 
         [field: SerializeField]
         private Transform LHand { get; set; }
-        
+
+        public int Point { get; set; }
+
         private Weapon Weapon { get; set; }
 
         public Vector2 Direction { get; set; }
@@ -92,13 +94,18 @@ namespace Entities
 
             foreach (var target in targets.Where(target => target != this))
             {
-                target.TakeDamage(10);
+                target.TakeDamage(10, this);
             }
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, Player source)
         {
             this.Health -= damage;
+
+            if (source)
+            {
+                source.Point++;
+            }
         }
     }
 }
