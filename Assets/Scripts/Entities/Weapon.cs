@@ -51,7 +51,7 @@ namespace Entities
         {
             if (this.WeaponConfig == null) return;
             if (this.timer < this.WeaponConfig.sleepTime) return;
-            var startAngle = -this.WeaponConfig.angleBetweenBullet * this.WeaponConfig.numberBullet * 1.0f / 2;
+            var startAngle = -this.WeaponConfig.angleBetweenBullet * (this.WeaponConfig.numberBullet - 1) / 2;
             for (var i = 0; i < this.WeaponConfig.numberBullet; i++)
             {
                 var localEulerAngles = this.transform.localEulerAngles;
