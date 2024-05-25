@@ -1,9 +1,7 @@
+using Entities.Configs;
 using UnityEngine;
-
 namespace Entities
 {
-    using System;
-    using Entities.Configs;
 
     public class Weapon : MonoBehaviour
     {
@@ -19,30 +17,38 @@ namespace Entities
 
         [field: SerializeField] private WeaponConfig WeaponConfig { get; set; }
 
-        public bool IsMounted { get; private set; }
-
         private float timer;
 
-        private void Update() { this.timer += Time.deltaTime; }
+        public bool IsMounted { get; private set; }
+        public Player MountedPlayer { get; private set; }
+
+        private void Update()
+        {
+            this.timer += Time.deltaTime;
+        }
 
         public void Mount(Transform mountedTf)
         {
             if (this.IsMounted) return;
-            this.IsMounted             = true;
+
+            this.MountedPlayer = mountedTf.GetComponentInParent<Player>();
+            if (!this.MountedPlayer) return;
+
+            this.IsMounted = true;
             this.SpriteRenderer.sprite = this.OnHandSprite;
-            this.Collider.enabled      = false;
+            this.Collider.enabled = false;
 
             this.transform.SetParent(mountedTf);
-            this.transform.rotation      = Quaternion.Euler(0, 0, 90);
+            this.transform.rotation = Quaternion.Euler(0, 0, 90);
             this.transform.localPosition = Vector3.down;
         }
 
         public void Unmount()
         {
             if (!this.IsMounted) return;
-            this.IsMounted             = false;
+            this.IsMounted = false;
             this.SpriteRenderer.sprite = this.OnGroundSprite;
-            this.Collider.enabled      = true;
+            this.Collider.enabled = true;
 
             this.transform.SetParent(null);
         }
@@ -52,13 +58,14 @@ namespace Entities
             if (this.WeaponConfig == null) return;
             if (this.timer < this.WeaponConfig.sleepTime) return;
             var startAngle = -this.WeaponConfig.angleBetweenBullet * (this.WeaponConfig.numberBullet - 1) / 2;
+
             for (var i = 0; i < this.WeaponConfig.numberBullet; i++)
             {
                 var localEulerAngles = this.transform.localEulerAngles;
-                var angle            = new Vector3(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z + startAngle);
-                var bullet           = Instantiate(this.WeaponConfig.bullet, this.ShootTf.position, this.transform.rotation).GetComponent<Bullet>();
+                var angle = new Vector3(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z + startAngle);
+                var bullet = Instantiate(this.WeaponConfig.bullet, this.ShootTf.position, this.transform.rotation).GetComponent<Bullet>();
                 bullet.transform.localEulerAngles = angle;
-                bullet.Release(this.WeaponConfig.damage, this.WeaponConfig.bulletSpeed);
+                bullet.Release(this.WeaponConfig.damage, this.WeaponConfig.bulletSpeed, this.MountedPlayer);
                 startAngle += this.WeaponConfig.angleBetweenBullet;
             }
 
