@@ -37,6 +37,9 @@ namespace Entities
         [field: SerializeField]
         private Transform LHand { get; set; }
 
+        [field: SerializeField]
+        private bool Debug { get; set; }
+
         public int Point { get; set; }
 
         private Weapon Weapon { get; set; }
@@ -55,11 +58,24 @@ namespace Entities
 
             this.Visual.up = -this.Direction;
             this.HealthSlider.value = this.Health / 100.0f;
+
+            if (this.Debug)
+            {
+                var hor = Input.GetAxis("Horizontal");
+                var ver = Input.GetAxis("Vertical");
+
+                this.Direction = new (hor, ver);
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    this.Attack();
+                }
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.transform.GetComponent<Weapon>() is { IsMounted: false } weapon)
+            if (other.transform.GetComponentInParent<Weapon>() is { IsMounted: false } weapon)
             {
                 if (this.Weapon) return;
                 this.Weapon = weapon;

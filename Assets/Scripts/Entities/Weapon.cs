@@ -25,6 +25,12 @@ namespace Entities
         private void Update()
         {
             this.timer += Time.deltaTime;
+
+            if (this.IsMounted)
+            {
+                this.transform.localPosition = Vector3.zero;
+                this.transform.localEulerAngles = Vector3.back * 90f;
+            }
         }
 
         public void Mount(Transform mountedTf)
@@ -39,8 +45,6 @@ namespace Entities
             this.Collider.enabled = false;
 
             this.transform.SetParent(mountedTf);
-            this.transform.rotation = Quaternion.Euler(0, 0, 90);
-            this.transform.localPosition = Vector3.down;
         }
 
         public void Unmount()
@@ -61,10 +65,10 @@ namespace Entities
 
             for (var i = 0; i < this.WeaponConfig.numberBullet; i++)
             {
-                var localEulerAngles = this.transform.localEulerAngles;
-                var angle = new Vector3(localEulerAngles.x, localEulerAngles.y, localEulerAngles.z + startAngle);
+                var angles = this.transform.eulerAngles;
+                var angle = new Vector3(angles.x, angles.y, angles.z + startAngle - 90f);
                 var bullet = Instantiate(this.WeaponConfig.bullet, this.ShootTf.position, this.transform.rotation).GetComponent<Bullet>();
-                bullet.transform.localEulerAngles = angle;
+                bullet.transform.eulerAngles = angle;
                 bullet.Release(this.WeaponConfig.damage, this.WeaponConfig.bulletSpeed, this.MountedPlayer);
                 startAngle += this.WeaponConfig.angleBetweenBullet;
             }

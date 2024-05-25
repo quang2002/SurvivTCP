@@ -10,8 +10,11 @@ namespace Entities
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.gameObject.GetComponent<Player>() is { } otherPlayer && otherPlayer != this.src)
+            if (other.gameObject.GetComponentInParent<Player>() is { } otherPlayer)
             {
+                if (otherPlayer == this.src)
+                    return;
+
                 otherPlayer.TakeDamage(this.damage, otherPlayer);
                 return;
             }
