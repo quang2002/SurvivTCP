@@ -40,6 +40,9 @@ namespace Entities
         [field: SerializeField]
         private bool Debug { get; set; }
 
+        [field: SerializeField]
+        public bool IsDead { get; set; }
+
         public int Point { get; set; }
 
         private Weapon Weapon { get; set; }
@@ -54,6 +57,12 @@ namespace Entities
 
         private void Update()
         {
+            if (this.IsDead)
+            {
+                this.gameObject.SetActive(false);
+                return;
+            }
+
             this.Rigidbody2D.velocity = this.Direction.normalized * this.Speed;
 
             this.Visual.up = -this.Direction;
@@ -117,6 +126,8 @@ namespace Entities
         public void TakeDamage(float damage, Player source)
         {
             this.Health -= damage;
+
+
 
             if (source)
             {
