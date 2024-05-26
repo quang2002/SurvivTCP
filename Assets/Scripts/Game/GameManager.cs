@@ -11,7 +11,10 @@ namespace Game
     public class GameManager : MonoBehaviour
     {
         [field: SerializeField]
-        private GameObject PlayerPrefab { get; set; }
+        private Player PlayerPrefab { get; set; }
+
+        [field: SerializeField]
+        private Weapon[] WeaponPrefabs { get; set; }
 
         [field: SerializeField]
         public TcpServer TcpServer { get; private set; }
@@ -24,6 +27,8 @@ namespace Game
 
         [field: SerializeField]
         public GameScreen GameScreen { get; private set; }
+
+        private List<Weapon> Weapons { get; } = new ();
 
         public static GameManager Instance { get; private set; }
 
@@ -53,13 +58,36 @@ namespace Game
             Instance = null;
         }
 
+        public void RandomSpawnWeapons(int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var randomIdx = (int)(Random.value * this.WeaponPrefabs.Length);
+                var weapon = Instantiate(
+                    this.WeaponPrefabs[randomIdx],
+                    (Vector3)Random.insideUnitCircle * 100f,
+                    Quaternion.identity
+                );
+
+                this.Weapons.Add(weapon);
+            }
+        }
+
+        public void ClearWeapons()
+        {
+            foreach (var weapon in this.Weapons)
+            {
+                Destroy(weapon.gameObject);
+            }
+        }
+
         public Player SpawnPlayer()
         {
             var player = Instantiate(
                 this.PlayerPrefab,
                 (Vector3)Random.insideUnitCircle * 100f,
                 Quaternion.identity
-            ).GetComponent<Player>();
+            );
 
             return player;
         }

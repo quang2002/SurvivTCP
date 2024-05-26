@@ -7,6 +7,7 @@ namespace Game
         {
             GameManager.Instance.GameScreen.Show();
             GameManager.Instance.TransitionTo<GamePlayingState>();
+            GameManager.Instance.RandomSpawnWeapons(20);
         }
 
         public void Exit()

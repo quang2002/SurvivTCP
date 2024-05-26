@@ -5,6 +5,7 @@ namespace Game
 
         public void Enter()
         {
+            GameManager.Instance.ClearWeapons();
         }
 
         public void Exit()
