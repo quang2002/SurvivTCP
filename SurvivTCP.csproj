@@ -49,6 +49,7 @@
      <Compile Include="Assets/Scripts/Screen/BaseScreen.cs" />
      <Compile Include="Assets/Scripts/Game/GameLobbyState.cs" />
      <Compile Include="Assets/Scripts/Screen/GameScreen.cs" />
+     <Compile Include="Assets/Scripts/GameInfo.cs" />
      <Compile Include="Assets/Scripts/Entities/Weapon.cs" />
      <Compile Include="Assets/Scripts/Game/GamePlayingState.cs" />
      <Compile Include="Assets/Scripts/Screen/LobbyScreen.cs" />

@@ -1039,7 +1039,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbe39bcffe148a9921346e88803ae25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <PlayerPrefab>k__BackingField: {fileID: 3529448904497627829, guid: 2bbe8b23dbc44efa38c2bd95957c8e60, type: 3}
+  <PlayerPrefab>k__BackingField: {fileID: 2892335034749575288, guid: 2bbe8b23dbc44efa38c2bd95957c8e60, type: 3}
+  <WeaponPrefabs>k__BackingField:
+  - {fileID: 8129115683989719451, guid: cb63a577d48fdb15cacdd4761e2e3c12, type: 3}
   <TcpServer>k__BackingField: {fileID: 63415729}
   <CameraController>k__BackingField: {fileID: 519420033}
   <LobbyScreen>k__BackingField: {fileID: 1224194252}

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game;
+using UnityEngine;
 namespace Entities
 {
 
@@ -7,6 +8,18 @@ namespace Entities
         public GameObject vfxWhenDestroy;
         private float damage;
         private Player src;
+
+        public float Velocity => this.GetComponent<Rigidbody2D>().velocity.magnitude;
+
+        private void OnEnable()
+        {
+            GameManager.Instance.Bullets.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            GameManager.Instance.Bullets.Remove(this);
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using Game;
@@ -11,6 +12,8 @@ namespace Server
     {
         private const float MaxPlayer = 15;
         private const float MaxTimeout = 5;
+        private const float GameInfoInterval = 1;
+        private float currentGameInfoInterval = GameInfoInterval;
 
         public bool IsOpenForConnection { get; set; }
 
@@ -23,6 +26,7 @@ namespace Server
         {
             this.AcceptPlayers();
             this.ResolvePlayerPackets();
+            this.SendGameInfo();
         }
 
         private void OnEnable()
@@ -164,6 +168,89 @@ namespace Server
             this.ClientInfos.Remove(info);
             this.OnDisconnected?.Invoke(info);
             Debug.Log("Closed Connections");
+        }
+
+        private void SendGameInfo()
+        {
+            if (GameManager.Instance.CurrentState is not (GamePlayingState or GameWaitingState))
+            {
+                return;
+            }
+
+            this.currentGameInfoInterval -= Time.deltaTime;
+
+            if (this.currentGameInfoInterval <= 0)
+            {
+                this.currentGameInfoInterval = GameInfoInterval;
+            }
+            else
+            {
+                return;
+            }
+
+            foreach (var clientInfo in this.ClientInfos)
+            {
+                var builder = new GameInfoBuilder();
+
+                builder.SetCurrentPlayerInfo(new ()
+                {
+                    Position = new ()
+                    {
+                        X = clientInfo.Player.transform.position.x,
+                        Y = clientInfo.Player.transform.position.y,
+                    },
+                    Direction = new ()
+                    {
+                        X = clientInfo.Player.Direction.x,
+                        Y = clientInfo.Player.Direction.y,
+                    },
+                    Health = clientInfo.Player.Health,
+                    Speed = clientInfo.Player.Velocity,
+                    IsAlly = true,
+                });
+
+                builder.SetOtherPlayers(
+                    this.ClientInfos
+                        .Where(info => info != clientInfo)
+                        .Select(info => new PlayerInfo
+                        {
+                            Position = new ()
+                            {
+                                X = info.Player.transform.position.x,
+                                Y = info.Player.transform.position.y,
+                            },
+                            Direction = new ()
+                            {
+                                X = info.Player.Direction.x,
+                                Y = info.Player.Direction.y,
+                            },
+                            Health = info.Player.Health,
+                            Speed = info.Player.Velocity,
+                            IsAlly = true,
+                        })
+                );
+
+                builder.SetBullets(
+                    GameManager.Instance.Bullets
+                        .Select(bullet => new BulletInfo
+                        {
+                            Position = new ()
+                            {
+                                X = bullet.transform.position.x,
+                                Y = bullet.transform.position.y,
+                            },
+                            Direction = new ()
+                            {
+                                X = bullet.transform.up.x,
+                                Y = bullet.transform.up.y,
+                            },
+                            Speed = bullet.Velocity,
+                        })
+                );
+
+                var proto = builder.Build();
+                clientInfo.Client.Client.Send(proto);
+            }
         }
     }
 }

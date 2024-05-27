@@ -36,6 +36,8 @@ namespace Game
 
         public IGameState CurrentState { get; private set; }
 
+        public HashSet<Bullet> Bullets { get; } = new ();
+
         private void Awake()
         {
             Instance = this;

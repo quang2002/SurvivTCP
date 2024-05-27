@@ -20,7 +20,7 @@ namespace Entities
         private float Speed { get; set; }
 
         [field: SerializeField]
-        private float Health { get; set; } = 100;
+        public float Health { get; private set; } = 100;
 
         [field: SerializeField]
         private Collider2D MeleeAttackCollider2D { get; set; }
@@ -48,6 +48,8 @@ namespace Entities
         private Weapon Weapon { get; set; }
 
         public Vector2 Direction { get; set; }
+
+        public float Velocity => this.Rigidbody2D.velocity.magnitude;
 
         public string Name
         {
