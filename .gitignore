@@ -1,7 +1,8 @@
 /.idea/
 /Library/
 /Logs/
-/obj/
+**/obj/
+**/bin/
 /Temp/
 /UserSettings/
 

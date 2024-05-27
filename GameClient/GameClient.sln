@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameClient", "GameClient\GameClient.csproj", "{9F863532-2AE3-48D5-93A6-51FD1504C9D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDK", "SDK\SDK.csproj", "{B23B7595-7FC4-4EEF-B57E-689408B27DFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{9F863532-2AE3-48D5-93A6-51FD1504C9D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F863532-2AE3-48D5-93A6-51FD1504C9D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F863532-2AE3-48D5-93A6-51FD1504C9D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B23B7595-7FC4-4EEF-B57E-689408B27DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B23B7595-7FC4-4EEF-B57E-689408B27DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B23B7595-7FC4-4EEF-B57E-689408B27DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B23B7595-7FC4-4EEF-B57E-689408B27DFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
