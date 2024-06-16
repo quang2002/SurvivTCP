@@ -14,6 +14,9 @@ namespace Game
         private Player PlayerPrefab { get; set; }
 
         [field: SerializeField]
+        private GameObject RockPrefab { get; set; }
+
+        [field: SerializeField]
         private Weapon[] WeaponPrefabs { get; set; }
 
         [field: SerializeField]
@@ -29,6 +32,8 @@ namespace Game
         public GameScreen GameScreen { get; private set; }
 
         private List<Weapon> Weapons { get; } = new ();
+
+        private List<GameObject> Rocks { get; } = new ();
 
         public static GameManager Instance { get; private set; }
 
@@ -72,6 +77,22 @@ namespace Game
                 );
 
                 this.Weapons.Add(weapon);
+            }
+        }
+
+        public void RandomSpawnRocks(int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var rock = Instantiate(
+                    this.RockPrefab,
+                    (Vector3)Random.insideUnitCircle * 100f,
+                    Quaternion.identity
+                );
+
+                rock.transform.localScale = (Random.value * 5 + 1) * Vector3.one;
+
+                this.Rocks.Add(rock);
             }
         }
 

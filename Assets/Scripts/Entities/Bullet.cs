@@ -33,7 +33,7 @@ namespace Entities
             }
 
             if (this.vfxWhenDestroy) Instantiate(this.vfxWhenDestroy);
-            if (this.gameObject) Destroy(this.gameObject);
+            // if (this.gameObject) Destroy(this.gameObject);
         }
 
         public void Release(float bulletDamage, float bulletSpeed, Player source)

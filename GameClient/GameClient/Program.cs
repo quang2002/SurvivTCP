@@ -1,5 +1,5 @@
 ﻿using SDK.Client;
-var client = new Bot("127.0.0.1", 12345);
+var client = new Bot("localhost", 12345);
 
 if (!client.Connect())
 {
@@ -28,33 +28,19 @@ new Thread(() =>
 {
     while (true)
     {
-        var key = Console.ReadKey(true);
-        var x = 0f;
-        var y = 0f;
+        var position = client.GameInfo?.Me.Position;
 
-        switch (key.Key)
+        if (position is not null)
         {
-            case ConsoleKey.Spacebar:
-                client.Attack(default);
-                break;
-            case ConsoleKey.A:
-                x -= 1f;
-                break;
-            case ConsoleKey.D:
-                x += 1f;
-                break;
-            case ConsoleKey.W:
-                y += 1f;
-                break;
-            case ConsoleKey.S:
-                y -= 1f;
-                break;
+            client.Attack(new ());
+
+            client.Move(new ()
+            {
+                X = 5 - position.Value.X,
+                Y = 6 - position.Value.Y,
+            });
         }
 
-        client.Move(new ()
-        {
-            X = x,
-            Y = y,
-        });
+        Thread.Sleep(100);
     }
 }).Start();

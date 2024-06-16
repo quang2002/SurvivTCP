@@ -15,6 +15,6 @@ MonoBehaviour:
   damage: 10
   sleepTime: 0.5
   bulletSpeed: 4
-  numberBullet: 1
-  angleBetweenBullet: 0
+  numberBullet: 5
+  angleBetweenBullet: 10
   bullet: {fileID: 4655436322280963714, guid: c644f6af26681244b91f0925a93e6a95, type: 3}
