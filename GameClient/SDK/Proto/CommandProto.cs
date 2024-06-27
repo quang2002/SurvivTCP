@@ -1,10 +1,10 @@
-namespace SDK.Proto
+namespace SDK.Proto;
+
+public enum CommandProto
 {
-    public enum CommandProto
-    {
-        KeepAlive,
-        MoveProto,
-        InitialProto,
-        AttackProto,
-    }
+    KeepAlive,
+    MoveProto,
+    InitialProto,
+    AttackProto,
+    DropProto,
 }

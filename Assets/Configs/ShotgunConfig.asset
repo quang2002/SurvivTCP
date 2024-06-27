@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33b2467452f74fffac3aa216be4dccc3, type: 3}
-  m_Name: PistolConfig
+  m_Name: ShotgunConfig
   m_EditorClassIdentifier: 
-  damage: 10
-  sleepTime: 0.5
+  damage: 2
+  sleepTime: 1
   bulletSpeed: 4
-  numberBullet: 1
-  angleBetweenBullet: 0
+  numberBullet: 3
+  angleBetweenBullet: 10
   bullet: {fileID: 4655436322280963714, guid: c644f6af26681244b91f0925a93e6a95, type: 3}

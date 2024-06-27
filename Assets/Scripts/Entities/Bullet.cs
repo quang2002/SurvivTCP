@@ -2,12 +2,16 @@
 using UnityEngine;
 namespace Entities
 {
+    using System;
 
     public class Bullet : MonoBehaviour
     {
-        public GameObject vfxWhenDestroy;
-        private float damage;
-        private Player src;
+        public  GameObject vfxWhenDestroy;
+        private float      damage;
+        private Player     src;
+        
+        [SerializeField]
+        private float      timeout = 10;
 
         public float Velocity => this.GetComponent<Rigidbody2D>().velocity.magnitude;
 
@@ -28,12 +32,10 @@ namespace Entities
                 if (otherPlayer == this.src)
                     return;
 
-                otherPlayer.TakeDamage(this.damage, otherPlayer);
-                return;
+                otherPlayer.TakeDamage(this.damage, this.src);
+                if (this.gameObject) Destroy(this.gameObject);
+                if (this.vfxWhenDestroy) Instantiate(this.vfxWhenDestroy);
             }
-
-            if (this.vfxWhenDestroy) Instantiate(this.vfxWhenDestroy);
-            // if (this.gameObject) Destroy(this.gameObject);
         }
 
         public void Release(float bulletDamage, float bulletSpeed, Player source)
@@ -42,6 +44,15 @@ namespace Entities
             this.damage = bulletDamage;
             Vector2 direction = this.transform.up;
             this.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+        }
+
+        private void Update()
+        {
+            this.timeout -= Time.deltaTime;
+            if (this.timeout < 0)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }

@@ -1,26 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using Game;
-using Server.Handlers;
-using UnityEngine;
 namespace Server
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Sockets;
+    using Game;
+    using Handlers;
+    using UnityEngine;
+
     public class TcpServer : MonoBehaviour
     {
-        private const float MaxPlayer = 15;
-        private const float MaxTimeout = 5;
-        private const float GameInfoInterval = 1;
-        private float currentGameInfoInterval = GameInfoInterval;
+        private const float MaxPlayer               = 15;
+        private const float MaxTimeout              = 5;
+        private const float GameInfoInterval        = 1;
+        private       float currentGameInfoInterval = GameInfoInterval;
 
         public bool IsOpenForConnection { get; set; }
 
-        public IReadOnlyList<ClientInfo> PublicClientInfos => this.ClientInfos;
-        private List<ClientInfo> ClientInfos { get; } = new ();
-        private TcpListener TcpListener { get; } = new (IPAddress.Parse("127.0.0.1"), 12345);
-        private bool AcceptFlag { get; set; } = true;
+        public IReadOnlyList<ClientInfo> PublicClientInfos
+        {
+            get => this.ClientInfos;
+        }
+
+        private List<ClientInfo> ClientInfos { get; }      = new();
+        private TcpListener      TcpListener { get; }      = new(IPAddress.Parse("127.0.0.1"), 12345);
+        private bool             AcceptFlag  { get; set; } = true;
 
         private void Update()
         {
@@ -99,6 +104,14 @@ namespace Server
                                         new AttackHandler().Handler(info, data);
                                         break;
                                     }
+                                    case CommandProto.DropProto:
+                                    {
+                                        var data = *(DropProto*)cursor;
+                                        cursor += data.ProtoSize;
+
+                                        new DropHandler().Handler(info, data);
+                                        break;
+                                    }
                                     case CommandProto.KeepAlive:
                                     {
                                         info.Timeout = MaxTimeout;
@@ -146,10 +159,7 @@ namespace Server
 
                 this.ClientInfos.Add(info);
 
-                GameManager.Instance.RunOnMainThread(() =>
-                {
-                    info.Player = GameManager.Instance.SpawnPlayer();
-                });
+                GameManager.Instance.RunOnMainThread(() => { info.Player = GameManager.Instance.SpawnPlayer(); });
 
                 this.OnConnected?.Invoke(info);
 
@@ -159,10 +169,7 @@ namespace Server
 
         public void Kick(ClientInfo info)
         {
-            GameManager.Instance.RunOnMainThread(() =>
-            {
-                GameManager.Instance.DespawnPlayer(info.Player);
-            });
+            GameManager.Instance.RunOnMainThread(() => { GameManager.Instance.DespawnPlayer(info.Player); });
 
             info.Client.Close();
             this.ClientInfos.Remove(info);
@@ -188,18 +195,66 @@ namespace Server
                 return;
             }
 
+            var builder = new GameInfoBuilder();
+
+            builder.SetBullets(
+                GameManager.Instance.Bullets
+                           .Select(bullet => new BulletInfo
+                           {
+                               Position = new()
+                               {
+                                   X = bullet.transform.position.x,
+                                   Y = bullet.transform.position.y,
+                               },
+                               Direction = new()
+                               {
+                                   X = bullet.transform.up.x,
+                                   Y = bullet.transform.up.y,
+                               },
+                               Speed = bullet.Velocity,
+                           })
+            );
+
+            builder.SetItems(
+                GameManager.Instance.Items
+                           .Select(bullet => new ItemInfo
+                           {
+                               Position = new()
+                               {
+                                   X = bullet.transform.position.x,
+                                   Y = bullet.transform.position.y,
+                               },
+                               Type = bullet.name.StartsWith("Heal") ? ItemTypes.Heal : ItemTypes.Speed,
+                           })
+            );
+
+
+            builder.SetWeapons(
+                GameManager.Instance.Weapons
+                           .Where(weapon => !weapon.IsMounted)
+                           .Select(weapon => new WeaponInfo
+                           {
+                               Position = new()
+                               {
+                                   X = weapon.transform.position.x,
+                                   Y = weapon.transform.position.y,
+                               },
+                               Type = weapon.name.StartsWith("Shotgun") ? WeaponTypes.Shotgun :
+                                   weapon.name.StartsWith("Riffle") ? WeaponTypes.Riffle :
+                                   WeaponTypes.Pistol,
+                           })
+            );
+
             foreach (var clientInfo in this.ClientInfos)
             {
-                var builder = new GameInfoBuilder();
-
-                builder.SetCurrentPlayerInfo(new ()
+                builder.SetCurrentPlayerInfo(new()
                 {
-                    Position = new ()
+                    Position = new()
                     {
                         X = clientInfo.Player.transform.position.x,
                         Y = clientInfo.Player.transform.position.y,
                     },
-                    Direction = new ()
+                    Direction = new()
                     {
                         X = clientInfo.Player.Direction.x,
                         Y = clientInfo.Player.Direction.y,
@@ -214,12 +269,12 @@ namespace Server
                         .Where(info => info != clientInfo)
                         .Select(info => new PlayerInfo
                         {
-                            Position = new ()
+                            Position = new()
                             {
                                 X = info.Player.transform.position.x,
                                 Y = info.Player.transform.position.y,
                             },
-                            Direction = new ()
+                            Direction = new()
                             {
                                 X = info.Player.Direction.x,
                                 Y = info.Player.Direction.y,
@@ -227,24 +282,6 @@ namespace Server
                             Health = info.Player.Health,
                             Speed = info.Player.Velocity,
                             IsAlly = true,
-                        })
-                );
-
-                builder.SetBullets(
-                    GameManager.Instance.Bullets
-                        .Select(bullet => new BulletInfo
-                        {
-                            Position = new ()
-                            {
-                                X = bullet.transform.position.x,
-                                Y = bullet.transform.position.y,
-                            },
-                            Direction = new ()
-                            {
-                                X = bullet.transform.up.x,
-                                Y = bullet.transform.up.y,
-                            },
-                            Speed = bullet.Velocity,
                         })
                 );
 

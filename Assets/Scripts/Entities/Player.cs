@@ -1,10 +1,11 @@
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
 namespace Entities
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+
     public class Player : MonoBehaviour
     {
         [field: SerializeField]
@@ -18,6 +19,9 @@ namespace Entities
 
         [field: SerializeField]
         private float Speed { get; set; }
+
+        [field: SerializeField]
+        private float BonusSpeed { get; set; }
 
         [field: SerializeField]
         public float Health { get; private set; } = 100;
@@ -43,13 +47,18 @@ namespace Entities
         [field: SerializeField]
         public bool IsDead { get; set; }
 
+        private float BonusSpeedDuration { get; set; }
+
         public int Point { get; set; }
 
         private Weapon Weapon { get; set; }
 
         public Vector2 Direction { get; set; }
 
-        public float Velocity => this.Rigidbody2D.velocity.magnitude;
+        public float Velocity
+        {
+            get => this.Rigidbody2D.velocity.magnitude;
+        }
 
         public string Name
         {
@@ -65,17 +74,25 @@ namespace Entities
                 return;
             }
 
-            this.Rigidbody2D.velocity = this.Direction.normalized * this.Speed;
+            this.Rigidbody2D.velocity = this.Direction.normalized * (this.Speed + this.BonusSpeed);
 
             this.Visual.up = -this.Direction;
             this.HealthSlider.value = this.Health / 100.0f;
+
+            this.BonusSpeedDuration -= Time.deltaTime;
+
+            if (this.BonusSpeedDuration <= 0)
+            {
+                this.BonusSpeedDuration = 0;
+                this.BonusSpeed = 0;
+            }
 
             if (this.Debug)
             {
                 var hor = Input.GetAxis("Horizontal");
                 var ver = Input.GetAxis("Vertical");
 
-                this.Direction = new (hor, ver);
+                this.Direction = new(hor, ver);
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -106,6 +123,15 @@ namespace Entities
             }
         }
 
+        public void Drop()
+        {
+            if (this.Weapon)
+            {
+                this.Weapon.Unmount();
+                this.Weapon = null;
+            }
+        }
+
         public void OnMeleeAttack()
         {
             var filter = new ContactFilter2D
@@ -121,7 +147,7 @@ namespace Entities
 
             foreach (var target in targets.Where(target => target != this))
             {
-                target.TakeDamage(10, this);
+                target?.TakeDamage(10, this);
             }
         }
 
@@ -129,12 +155,23 @@ namespace Entities
         {
             this.Health -= damage;
 
-
-
             if (source)
             {
                 source.Point++;
             }
+
+            this.IsDead = this.Health <= 0;
+        }
+
+        public void Heal(float healingCount)
+        {
+            this.Health += healingCount;
+        }
+
+        public void SpeedupFor(float speedupCount, float duration)
+        {
+            this.BonusSpeed = Mathf.Max(speedupCount, this.BonusSpeed);
+            this.BonusSpeedDuration = Mathf.Max(duration, this.BonusSpeedDuration);
         }
     }
 }

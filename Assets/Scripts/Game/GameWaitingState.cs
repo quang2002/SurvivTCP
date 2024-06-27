@@ -9,6 +9,7 @@ namespace Game
             GameManager.Instance.TransitionTo<GamePlayingState>();
             GameManager.Instance.RandomSpawnWeapons(20);
             GameManager.Instance.RandomSpawnRocks(30);
+            GameManager.Instance.RandomSpawnItems(30);
         }
 
         public void Exit()

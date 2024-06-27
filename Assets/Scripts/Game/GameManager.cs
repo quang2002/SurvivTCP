@@ -15,6 +15,9 @@ namespace Game
 
         [field: SerializeField]
         private GameObject RockPrefab { get; set; }
+        
+        [field: SerializeField]
+        private GameObject[] ItemsPrefab { get; set; }
 
         [field: SerializeField]
         private Weapon[] WeaponPrefabs { get; set; }
@@ -31,9 +34,10 @@ namespace Game
         [field: SerializeField]
         public GameScreen GameScreen { get; private set; }
 
-        private List<Weapon> Weapons { get; } = new ();
+        public List<Weapon> Weapons { get; } = new ();
 
-        private List<GameObject> Rocks { get; } = new ();
+        public List<GameObject> Rocks { get; } = new ();
+        public List<GameObject> Items { get; } = new ();
 
         public static GameManager Instance { get; private set; }
 
@@ -95,12 +99,34 @@ namespace Game
                 this.Rocks.Add(rock);
             }
         }
+        
+        public void RandomSpawnItems(int count)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var item = Instantiate(
+                    this.ItemsPrefab[(int)(Random.value * this.ItemsPrefab.Length)],
+                    (Vector3)Random.insideUnitCircle * 100f,
+                    Quaternion.identity
+                );
+
+                this.Items.Add(item);
+            }
+        }
 
         public void ClearWeapons()
         {
             foreach (var weapon in this.Weapons)
             {
                 Destroy(weapon.gameObject);
+            }
+        }
+        
+        public void ClearItems()
+        {
+            foreach (var item in this.Items)
+            {
+                Destroy(item.gameObject);
             }
         }
 
