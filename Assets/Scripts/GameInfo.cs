@@ -56,14 +56,23 @@ public struct WeaponInfo
     public WeaponTypes Type     { get; set; }
 }
 
+[StructLayout(LayoutKind.Sequential)]
+public struct RockInfo
+{
+    public Vec2  Position { get; set; }
+    public float Radius   { get; set; }
+}
+
 
 public class GameInfoBuilder
 {
-    public PlayerInfo              Me      { get; private set; }
-    public IEnumerable<PlayerInfo> Others  { get; private set; }
-    public IEnumerable<BulletInfo> Bullets { get; private set; }
-    public IEnumerable<ItemInfo>   Items   { get; private set; }
-    public IEnumerable<WeaponInfo> Weapons { get; private set; }
+    private byte[]                  buffer;
+    public  PlayerInfo              Me      { get; private set; }
+    public  IEnumerable<PlayerInfo> Others  { get; private set; }
+    public  IEnumerable<BulletInfo> Bullets { get; private set; }
+    public  IEnumerable<ItemInfo>   Items   { get; private set; }
+    public  IEnumerable<WeaponInfo> Weapons { get; private set; }
+    public  IEnumerable<RockInfo>   Rocks   { get; private set; }
 
     public GameInfoBuilder SetCurrentPlayerInfo(PlayerInfo playerInfo)
     {
@@ -95,6 +104,12 @@ public class GameInfoBuilder
         return this;
     }
 
+    public GameInfoBuilder SetRocks(IEnumerable<RockInfo> rocks)
+    {
+        this.Rocks = rocks;
+        return this;
+    }
+
     public unsafe byte[] Build()
     {
         // 1. Calc size of proto
@@ -103,6 +118,7 @@ public class GameInfoBuilder
         var bulletsCount = this.Bullets.Count();
         var weaponsCount = this.Weapons.Count();
         var itemsCount = this.Items.Count();
+        var rocksCount = this.Rocks.Count();
 
         totalSize += sizeof(PlayerInfo); // Me
         totalSize += sizeof(PlayerInfo) * othersCount + sizeof(int); // Others
@@ -110,8 +126,14 @@ public class GameInfoBuilder
         totalSize += sizeof(ItemInfo) * itemsCount + sizeof(int); // Items
         totalSize += sizeof(WeaponInfo) * weaponsCount + sizeof(int); // Weapons
 
+
         // 2. Build proto
-        var proto = new byte[totalSize];
+        if (this.buffer == null || this.buffer.Length < totalSize)
+        {
+            this.buffer = new byte[totalSize];
+        }
+
+        var proto = this.buffer;
 
         fixed (byte* ptr = proto.AsSpan())
         {
@@ -158,6 +180,16 @@ public class GameInfoBuilder
             {
                 *(WeaponInfo*)cur = weapon;
                 cur += sizeof(WeaponInfo);
+            }
+
+            // Rocks
+            *(int*)cur = rocksCount;
+            cur += sizeof(int);
+
+            foreach (var rock in this.Rocks)
+            {
+                *(RockInfo*)cur = rock;
+                cur += sizeof(RockInfo);
             }
         }
 
@@ -234,6 +266,20 @@ public class GameInfoBuilder
                 }
 
                 builder.Weapons = weapons;
+            }
+
+            // Rocks
+            {
+                var rocks = new RockInfo[*(int*)cur];
+                cur += sizeof(int);
+
+                for (var i = 0; i < rocks.Length; i++)
+                {
+                    rocks[i] = *(RockInfo*)cur;
+                    cur += sizeof(RockInfo);
+                }
+
+                builder.Rocks = rocks;
             }
         }
 

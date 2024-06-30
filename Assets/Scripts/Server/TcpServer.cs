@@ -245,6 +245,19 @@ namespace Server
                            })
             );
 
+            builder.SetRocks(
+                GameManager.Instance.Rocks
+                           .Select(rock => new RockInfo
+                           {
+                               Position = new()
+                               {
+                                   X = rock.transform.position.x,
+                                   Y = rock.transform.position.y,
+                               },
+                               Radius = rock.transform.localScale.x,
+                           })
+            );
+
             foreach (var clientInfo in this.ClientInfos)
             {
                 builder.SetCurrentPlayerInfo(new()

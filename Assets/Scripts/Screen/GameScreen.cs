@@ -1,11 +1,14 @@
-using System;
-using System.Collections.Generic;
-using Game;
-using TMPro;
-using UnityEngine;
 using Button = UnityEngine.UI.Button;
+
 namespace Screen
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Game;
+    using TMPro;
+    using UnityEngine;
+
     public class GameScreen : BaseScreen
     {
         [field: SerializeField]
@@ -31,7 +34,7 @@ namespace Screen
 
         public TimeSpan RemainingTime { get; set; }
 
-        private List<GameScreenRankingRow> Rows { get; set; } = new ();
+        private List<GameScreenRankingRow> Rows { get; } = new();
 
         private void Awake()
         {
@@ -73,7 +76,9 @@ namespace Screen
             }
 
             {
-                var clients = GameManager.Instance.TcpServer.PublicClientInfos;
+                var clients = GameManager.Instance.TcpServer.PublicClientInfos
+                                         .OrderBy(info => info.Player.Point)
+                                         .ToList();
 
                 for (var i = 0; i < this.Rows.Count; i++)
                 {
