@@ -10,7 +10,8 @@ namespace Server.Handlers
             Debug.Log("Attack: ()");
 
             if (GameManager.Instance.CurrentState is not GamePlayingState) return;
-
+            if (info.Player.IsDead) return;
+            
             info.Player.Attack();
         }
     }

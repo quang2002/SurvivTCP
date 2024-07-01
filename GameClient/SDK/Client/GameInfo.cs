@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential)]
@@ -122,6 +125,7 @@ public class GameInfoBuilder
         totalSize += sizeof(BulletInfo) * bulletsCount + sizeof(int); // Bullets
         totalSize += sizeof(ItemInfo) * itemsCount + sizeof(int); // Items
         totalSize += sizeof(WeaponInfo) * weaponsCount + sizeof(int); // Weapons
+        totalSize += sizeof(RockInfo) * rocksCount + sizeof(int); // Rocks
 
 
         // 2. Build proto

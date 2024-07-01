@@ -10,6 +10,7 @@ namespace Server.Handlers
             Debug.Log("Drop: ()");
 
             if (GameManager.Instance.CurrentState is not GamePlayingState) return;
+            if (info.Player.IsDead) return;
 
             info.Player.Drop();
         }

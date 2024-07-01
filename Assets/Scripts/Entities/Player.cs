@@ -45,7 +45,10 @@ namespace Entities
         private bool Debug { get; set; }
 
         [field: SerializeField]
-        public bool IsDead { get; set; }
+        public float DeadTime { get; set; }
+
+        [field: SerializeField]
+        public SpriteRenderer[] Renderers { get; set; }
 
         private float BonusSpeedDuration { get; set; }
 
@@ -55,9 +58,24 @@ namespace Entities
 
         public Vector2 Direction { get; set; }
 
+        public bool IsDead => this.DeadTime > 0;
+
         public float Velocity
         {
             get => this.Rigidbody2D.velocity.magnitude;
+        }
+
+        private void SetAlpha(float alpha)
+        {
+            foreach (var renderer in this.Renderers)
+            {
+                renderer.color = new Color(
+                    renderer.color.r,
+                    renderer.color.g,
+                    renderer.color.b,
+                    alpha
+                );
+            }
         }
 
         public string Name
@@ -68,9 +86,18 @@ namespace Entities
 
         private void Update()
         {
+            //this.gameObject.SetActive(!this.IsDead);
+
+            this.SetAlpha(this.IsDead ? 0.5f : 1.0f);
+            
             if (this.IsDead)
             {
-                this.gameObject.SetActive(false);
+                this.DeadTime -= Time.deltaTime;
+                if (!this.IsDead)
+                {
+                    this.OnRevive();
+                }
+
                 return;
             }
 
@@ -98,6 +125,17 @@ namespace Entities
                 {
                     this.Attack();
                 }
+            }
+        }
+
+        private void OnRevive()
+        {
+            this.Health = 100;
+            
+            this.Rigidbody2D.simulated = true;
+            foreach (var child in this.GetComponentsInChildren<Collider2D>())
+            {
+                child.enabled = true;
             }
         }
 
@@ -153,6 +191,9 @@ namespace Entities
 
         public void TakeDamage(float damage, Player source)
         {
+            if (this.Health <= 0)
+                return;
+
             this.Health -= damage;
 
             if (source)
@@ -160,7 +201,21 @@ namespace Entities
                 source.Point++;
             }
 
-            this.IsDead = this.Health <= 0;
+            if (this.Health <= 0)
+                this.OnDead();
+        }
+
+        private void OnDead()
+        {
+            this.Drop();
+            this.DeadTime = 5;
+            this.Direction = Vector2.zero;
+
+            this.Rigidbody2D.simulated = false;
+            foreach (var child in this.GetComponentsInChildren<Collider2D>())
+            {
+                child.enabled = false;
+            }
         }
 
         public void Heal(float healingCount)

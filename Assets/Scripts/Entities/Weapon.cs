@@ -18,6 +18,7 @@ namespace Entities
         [field: SerializeField] private WeaponConfig WeaponConfig { get; set; }
 
         private float timer;
+        private float lockedTime;
 
         public bool IsMounted { get; private set; }
         public Player MountedPlayer { get; private set; }
@@ -25,6 +26,11 @@ namespace Entities
         private void Update()
         {
             this.timer += Time.deltaTime;
+
+            if (this.lockedTime > 0)
+            {
+                this.lockedTime -= Time.deltaTime;
+            }
 
             if (this.IsMounted)
             {
@@ -35,6 +41,7 @@ namespace Entities
 
         public void Mount(Transform mountedTf)
         {
+            if (this.lockedTime > 0) return;
             if (this.IsMounted) return;
 
             this.MountedPlayer = mountedTf.GetComponentInParent<Player>();
@@ -55,6 +62,7 @@ namespace Entities
             this.Collider.enabled = true;
 
             this.transform.SetParent(null);
+            this.lockedTime = 1;
         }
 
         public void Attack()

@@ -9,6 +9,7 @@ namespace Server.Handlers
             Debug.Log($"Move: (${packet.X}, ${packet.Y})");
 
             if (GameManager.Instance.CurrentState is not GamePlayingState) return;
+            if (info.Player.IsDead) return;
 
             info.Player.Direction = packet.Direction;
         }
